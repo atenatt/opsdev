@@ -1,10 +1,21 @@
-version: '3.8'
-
 services:
-  db:
+  app:
     build:
-      context: ./db
+      context: ./app
       dockerfile: Dockerfile
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      TERM: xterm
+    depends_on:
+      - db
+    networks:
+      - devops_network
+
+  db:
+    image: postgres:latest
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
