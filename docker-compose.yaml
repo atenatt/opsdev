@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: opsdev_db
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+    networks:
+      - devops_network
+
+networks:
+  devops_network:
+    driver: bridge
